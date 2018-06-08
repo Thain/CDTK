@@ -16,6 +16,10 @@ namespace CDTK
             // INITIALIZATION
             Triangulation tri = target as Triangulation;
 
+			EditorGUILayout.BeginHorizontal();
+        	tri.level = (GameObject) EditorGUILayout.ObjectField(tri.level, typeof(GameObject), true);
+			EditorGUILayout.EndHorizontal();
+
             // DRAW THE UI
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();

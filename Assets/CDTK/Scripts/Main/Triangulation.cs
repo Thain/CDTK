@@ -5,32 +5,18 @@ using System.Collections.Generic;
 
 namespace CDTK {
 	public class Triangulation : MonoBehaviour {
-
-		//an example polygon to be triangulated as a test.
-		Vector2 a = new Vector2( 1, 2 );
-		Vector2 b = new Vector2( 0, 2 );
-		Vector2 c = new Vector2( 0, 1 );
-		Vector2 d = new Vector2( 1, 0 );
-		Vector2 e = new Vector2( 2, 0 );
-		Vector2 f = new Vector2( 2, 1 );
-		Vector2 g = new Vector2( 3, 2 );
-		Vector2 h = new Vector2( 3, 1 );
-		Vector2 i = new Vector2( 4, 1 );
-		Vector2 j = new Vector2( 4, 3 );
-		Vector2 k = new Vector2( 1, 3 );
-
-		Vector2 t1 = new Vector2( 0.5f, 1.5f );
-		Vector2 t2 = new Vector2( 1.5f, 1.5f );
-		Vector2 t3 = new Vector2( 1.5f, 0.5f );
+		public GameObject level;
 
 		public void TriangulateLevel () {
-			//this will need to be replaced later with properly initializing the vertices into the vertex graph.
-			List<Vector2> vertices = new List<Vector2> { a, b, c, d, e, f, g, h, i, j, k };
-			VertexGraph vg = Undo.AddComponent<VertexGraph>(gameObject);
-			vg.AddPolygon (vertices);
-			List<Vector2> triVerts = new List<Vector2> {t1,t2,t3};
-			vg.AddPolygon (triVerts);
+			//gets the polygon objects out of the level component, from GRTK. If using a different method of supplying the polygon, this needs to be changed.
+			GRTK.Polygon [] polyArray = level.GetComponents<GRTK.Polygon>();
 
+			VertexGraph vg = Undo.AddComponent<VertexGraph>(gameObject);
+
+			//adds all the polygons from the GRTK to the vertex graph. Starts at 1 rather than 0 because the outermost polygon in the GRTK method of level building is not part of the level.
+			for(int i = 1; i < polyArray.Length - 1; i++)
+				vg.AddPolygon (polyArray[i].GetRaw2());
+			
 			//multiple debug cases in case they are necessary.
 				// Line2D bound = new Line2D (f, g);
 				// Line2D draw = new Line2D (g, i);

@@ -10,8 +10,8 @@ namespace CDTK {
 		List<Vector2> vertices = new List<Vector2>();
 		public void AddPolygon(Vector2 [] v){
 			vertices.AddRange(v);
-			for(int i = 0; i < v.Count; i++){
-				if (i == v.Count - 1)
+			for(int i = 0; i < v.Length; i++){
+				if (i == v.Length - 1)
 					boundEdges.Add(new Line2D(v[i],v[0]));
 				else
 					boundEdges.Add(new Line2D(v[i], v[i + 1]));
