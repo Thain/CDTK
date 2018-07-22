@@ -24,9 +24,13 @@ namespace CDTK
             Vertex interP = border.p1; Vertex interQ = border.p2;
 
             Vertex cur;
+            // Addrange approach (is there a get for lists?)
             for(int i = 0; i < r1.vertices.Count; i++){
                 cur = r1.vertices[i];
-                if(cur.Equals(interP) || cur.Equals(interQ)){
+                if(cur.Equals(interP)){
+
+                }
+                if(cur.Equals(interQ)){
                     AppendVertex(cur);
                     for()
                     //initiate another for loop, going from one intersection to the other on the other polygon.
