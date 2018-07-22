@@ -6,24 +6,24 @@ using System.Collections.Generic;
 namespace CDTK
 {
 
-    [CustomEditor(typeof(Triangulation))]
-    public class TriangulationEditor : Editor
+    [CustomEditor(typeof(ConvexDecomposition))]
+    public class ConvexDecompositionEditor : Editor
     {
-		static bool triangulated = false;
+		static bool decomposed = false;
 
         public override void OnInspectorGUI()
         {
             // INITIALIZATION
-            Triangulation tri = target as Triangulation;
+            ConvexDecomposition cd = target as ConvexDecomposition;
 
 			EditorGUILayout.BeginHorizontal();
-        	tri.level = (GameObject) EditorGUILayout.ObjectField(tri.level, typeof(GameObject), true);
+        	cd.level = (GameObject) EditorGUILayout.ObjectField(cd.level, typeof(GameObject), true);
 			EditorGUILayout.EndHorizontal();
 
             // DRAW THE UI
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            bool triButtonResult = GUILayout.Button("Triangulate Level", GUILayout.Width(300), GUILayout.Height(20));
+            bool decompButtonResult = GUILayout.Button("Decompose Level", GUILayout.Width(300), GUILayout.Height(20));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -34,23 +34,23 @@ namespace CDTK
 			GUILayout.EndHorizontal();
 
             // HANDLE THE INPUT
-			if (triButtonResult) {
-				if (triangulated) 
-					Debug.Log ("Level already triangulated!");
+			if (decompButtonResult) {
+				if (decomposed) 
+					Debug.Log ("Level already decomposed!");
 				else {
-					tri.TriangulateLevel ();
-					triangulated = true;
+					cd.DecomposeLevel ();
+					decomposed = true;
 				}
 			} 
 			else if (resetButtonResult)
 			{
 				// Destroy all child polygons
-				foreach (VertexGraph vg in tri.gameObject.GetComponents<VertexGraph>())
+				foreach (VertexGraph vg in cd.gameObject.GetComponents<VertexGraph>())
 				{
 					DestroyImmediate(vg);
 				}
-				if (triangulated)
-					triangulated = false;
+				if (decomposed)
+					decomposed = false;
 				GUIUtility.ExitGUI();
 			}
         }
