@@ -11,7 +11,7 @@ namespace CDTK
     {
         // the raw data that represents these polygons.
 		List<Vector2> vertices;		
-		List<Line2D> edges;
+		List<Line> edges;
 
         public void SetVertices(List<Vector2> vertices){this.vertices = vertices;}
         // Adds a vertex as a neighbor to the last and first vertex in the loop

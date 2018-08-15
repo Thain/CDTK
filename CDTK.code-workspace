@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "Assets/CDTK/Scripts/Helper"
+		},
+		{
+			"path": "Assets/CDTK/Scripts/Main"
+		},
+		{
+			"path": "Assets/CDTK/Scripts/Editor"
+		}
+	]
+}
