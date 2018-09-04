@@ -5,37 +5,20 @@ using System.Collections.Generic;
 
 namespace CDTK {
 	public class ConvexDecomposition : MonoBehaviour {
+		
 		public GameObject level;
-
-		// //an example polygon to be triangulated as a test.
-		// Vector2 a = new Vector2( 1, 2 );
-		// Vector2 b = new Vector2( 0, 2 );
-		// Vector2 c = new Vector2( 0, 1 );
-		// Vector2 d = new Vector2( 1, 0 );
-		// Vector2 e = new Vector2( 2, 0 );
-		// Vector2 f = new Vector2( 2, 1 );
-		// Vector2 g = new Vector2( 3, 2 );
-		// Vector2 h = new Vector2( 3, 1 );
-		// Vector2 i = new Vector2( 4, 1 );
-		// Vector2 j = new Vector2( 4, 3 );
-		// Vector2 k = new Vector2( 1, 3 );
-
-		// Vector2 t1 = new Vector2( 0.5f, 1.5f );
-		// Vector2 t2 = new Vector2( 1.5f, 1.5f );
-		// Vector2 t3 = new Vector2( 1.5f, 0.5f );
 		
 		VertexGraph vg;
 
 		public void TriangulateLevel() {
 
  			vg = Undo.AddComponent<VertexGraph>(gameObject);
-			// //For the practice.
-			// Vector2 [] vertices = new Vector2[] { a, b, c, d, e, f, g, h, i, j, k };
-			// vg.AddPolygon (vertices);
-			// Vector2 [] triVerts = new Vector2[] {t1,t2,t3};
-			// vg.AddPolygon (triVerts);
 
-				// Actual thing to be done.
+			// //For the purposes of inserting a level manually through a list of preset Vector2 vars.
+			// Vector2 [] vertices = new Vector2[] { <Insert Vector2s> };
+			// vg.AddPolygon (vertices);
+			// // Subsequent adding of obstacles is done through listing it as a separate list of vertices
+
 				// Gets the polygon objects out of the level component, from GRTK. If using a different method of supplying the polygon, this needs to be changed.
 			GRTK.Polygon [] polyArray = level.GetComponents<GRTK.Polygon>();
 				// adds all the polygons from the GRTK to the vertex graph. Starts at 1 rather than 0 because the outermost polygon in the GRTK method of level building is not part of the level.
@@ -53,6 +36,7 @@ namespace CDTK {
 				// Now, to delete all lines which are either in obstacles or exterior to the level.
 				// If a point on a drawn line which has an infinite line drawn off in some direction has an even number of intersections with
 				// the boundaries of the polygon, it is either outside of it or in an obstacle. This completes triangulation.
+
 			foreach(Line line in vg.GetDrawnEdges())
 				if(NumIntersects(line,vg)%2 == 0) vg.EraseEdge(line);
 
@@ -60,10 +44,8 @@ namespace CDTK {
 			foreach(Vertex v in vg.GetVertices())
 				v.SortEdges();			
 			
-				// Then, for each of the lines that we drew, there is a region on each side. We want to see if combining them creates a convex shape.
-				// Thus we need to first create this web of regions.
-				// Then we need to test each pair.
 			vg.createRegions();
+
 		}
 		public void DecomposeLevel () {
 
@@ -78,10 +60,7 @@ namespace CDTK {
 					vg.RemoveRegion(l.cw); vg.RemoveRegion(l.ccw); vg.EraseEdge(l);
 					vg.AddRegion(r);
 				}
-			}		
-		}
-		public void DelaunayTriangulate() {
-			Debug.Log("I'm doing that thing i promise");
+			}	
 		}
 
 		// Counts the number of times an infinite line drawn between the point on the line given and some point

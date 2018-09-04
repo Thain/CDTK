@@ -81,6 +81,9 @@ namespace CDTK {
 			return true;
 		}
 
+			// for each of the lines that we drew, there is a region on each side. We want to see if combining them creates a convex shape.
+			// Thus we need to first create this web of regions.
+			// Then we need to test each pair.
 		public void createRegions(){
 			foreach(Line draw in drawnEdges)
 			{

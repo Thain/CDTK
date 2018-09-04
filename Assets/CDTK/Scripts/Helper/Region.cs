@@ -22,18 +22,17 @@ namespace CDTK
         }
 
         // Constructor for combining to smaller regions to make a bigger one: main constructor for the convex decomposition. 
+        // Both vertices and edges from both regions need to be added to the new lists, without duplicates, in counterclockwise
+        // order, with the border edge omitted. This is done by starting at the border and going around in counterclockwise order,
+        // adding vertices/edges until the border is reached again, then switching regions and finishing the circuit.  
         public Region(Region rCW, Region rCCW, Line border){
             vertices = new LinkedList<Vertex>();
             edges = new LinkedList<Line>();
 
-            // string uh1 = ""; string uh2 = "";
-            // foreach(Vertex v in rCW.vertices)
-            //     uh1 += v + " // ";
-            // foreach(Vertex v in rCCW.vertices)
-            //     uh2 += v + " // ";
-            // Debug.Log("Combining " + uh1 + " and " + uh2 + " over " + border);
-
             LinkedListNode<Vertex> cur; LinkedListNode<Vertex> other;
+            // All of these variables had to be declared so the ?? operator could be used, because linkedlists are being used
+            // there are null pointers at the ends of the lists and there's nothing guaranteeing that the border vertices/edges
+            // are at the ends of their lists.
             LinkedListNode<Vertex> borderA = rCCW.vertices.Find(border.a);
             LinkedListNode<Vertex> borderB = rCCW.vertices.Find(border.b); 
             LinkedListNode<Vertex> borderANext = borderA.Next ?? borderA.List.First;
@@ -108,21 +107,6 @@ namespace CDTK
             }
             return ret;
         }
-        // NOTE: TO BE EDITED LATER
-		#region Editor
-		// private void OnDrawGizmosSelected()
-		// {
-		// 	Vector3[] poly = GetRaw3();
-		// 	int i;
-		// 	for (i = 0; i < poly.Length; i++)
-		// 	{
-		// 		Gizmos.color = Color.cyan;
-		// 		Gizmos.DrawSphere(poly[i], 0.1f);
-		// 		Gizmos.color = Color.red;
-		// 		Gizmos.DrawLine(poly[i], poly[(i + 1) % poly.Length]);
-		// 	}
-		// }
-		#endregion
        
     }
 }
